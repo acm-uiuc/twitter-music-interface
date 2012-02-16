@@ -131,3 +131,20 @@ canvas.hits {
 #feed p {
 	margin-left: 60px;
 }
+
+
+#send-tweet iframe {
+	width: 100% !important;
+}
+
+@media (max-width: 1000px) {
+	#main section {
+		width: 50%;
+	}
+}
+
+@media (max-width: 600px) {
+	#main section {
+		width: 100%;
+	}
+}
