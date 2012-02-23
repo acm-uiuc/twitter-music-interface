@@ -88,6 +88,10 @@ function SequenceRenderer(canvas, colors) {
 	 * The number of steps between downbeats
 	 */
 	this.division = 4;
+	/**
+	 * The number of beats per grid line
+	 */
+	this.subdivision = 1;
 	
 	/**
 	 * Renders a sequence to the canvas
@@ -115,6 +119,8 @@ function SequenceRenderer(canvas, colors) {
 		c.fillRect(0, 0, w, h);
 		
 		var i = 0;
+		
+		hstep *= this.subdivision;
 		
 		// draw vertical blocks
 		for (var x = 0; x <= w; x += 2*hstep) {
@@ -226,12 +232,45 @@ function buildParams() {
 // Initialize the page
 
 $(document).ready(function() {
+	
+	if (window.io === undefined) {
+		console.error('Could not connect to Node server.');
+		return;
+	}
+	
+	socket = io.connect('http://localhost:8080/');
+	
+	socket.on('connect', function() {
+		socket.emit('get data');
+	})
+	
+	socket.on('tweets', function(data) {
+		console.log(data instanceof Array);
+		if (!$.isArray(data))
+			data = [data];
+		
+		console.log(data);
+		
+		for (var i = 0; i < data.length; i++) {
+			console.log(i, data[i]);
+			addTweet(data[i]);
+		}
+	})
+	
+	socket.on('notes', function(data) {
+		setSequence(data);
+	})
+	
+	socket.on('params', function(data) {
+		setParams(data);
+	})
+	
 	renderers.melody = new SequenceRenderer($('#melody').get(0));
 	renderers.bass = new SequenceRenderer($('#bass').get(0));
 	renderers.bassdrum = new RhythmRenderer($('#bassdrum').get(0));
 	renderers.snare = new RhythmRenderer($('#snare').get(0));
 	renderers.hihat = new RhythmRenderer($('#hihat').get(0));
-	renderers.hihat.division = 8;
+	renderers.hihat.subdivision = 2;
 	
 	for (var key in renderers) {
 		if (renderers.hasOwnProperty(key))
@@ -250,3 +289,4 @@ $(document).ready(function() {
 	for (var i = 0; i < 5; i++)
 		addTweet(testTweet, i != 4);
 })
+

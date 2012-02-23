@@ -1,5 +1,8 @@
 
 var tweetBoxPadding = 24;
+var tweetCount = 0;
+var maxTweets = 6;
+
 
 twttr.anywhere.config({
 	callbackURL: 'http://127.0.0.1/sigmusic/'
@@ -30,8 +33,6 @@ function resizeTweetBox() {
 	$(window.frames[1].document).find('#editor textarea').width(width);
 }
 
-var tweetCount = 0;
-var maxTweets = 5;
 
 function addTweet(tweet, noAnim) {
 	var avatar = tweet.avatar;
@@ -92,3 +93,4 @@ function hideExtraTweets() {
 		})
 	}
 }
+
