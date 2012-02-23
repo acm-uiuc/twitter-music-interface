@@ -222,34 +222,6 @@ function buildParams() {
 }
 
 
-function addTweet(tweet) {
-	var avatar = tweet.avatar;
-	var name = tweet.name;
-	var username = tweet.username;
-	var link = tweet.link;
-	var text = tweet.text;
-	
-	var profile = 'https://twitter.com/#!/' + username;
-	
-	var item = $('<article>').append(
-		$('<header>').append(
-			$('<a>').attr('href', profile).append(
-				$('<img>').addClass('avatar').attr({
-					src: avatar,
-					alt: name
-				}),
-				$('<span>').addClass('name').text(name),
-				' ',
-				$('<span>').addClass('username').text('@' + username)
-			)
-		),
-		$('<p>').text(text)
-	)
-		
-	$('#feed').prepend(item);
-}
-
-
 
 // Initialize the page
 
@@ -272,9 +244,9 @@ $(document).ready(function() {
 		avatar: 'https://twimg0-a.akamaihd.net/profile_images/426806419/Kana_reasonably_small.png',
 		name: 'Joel Spadin',
 		username: 'ChaosinaCan',
-		text: 'Testing testing, blah blah blah blah blah. Testing testing, blah blah blah blah blah. Testing testing, blah blah blah blah blah. 140 reached'
+		text: '@sigumusicuiuc, blah blah blah blah blah. Testing testing, blah blah blah blah blah. Testing testing, blah blah blah blah blah. 140 reached'
 	}
 	
 	for (var i = 0; i < 5; i++)
-		addTweet(testTweet);
+		addTweet(testTweet, i != 4);
 })
