@@ -1,11 +1,11 @@
 
 // Hardcoded sequences for testing. Use array of 16 0's for production
 var sequence = {
-	melody: [-1, 5, 8, 3, 4, 2, 1, 0, 1, 6, 7, 7, 2, 8, -1, 1],
-	bass: [-1, 5, 8, 3, 4, 2, 1, 0, 1, 6, 7, 7, 2, 8, -1, 1],
-	bassdrum: [1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1],
-	snare: [0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1],
-	hihat: [1,1,1,1, 1,0,1,0, 1,1,1,1, 0,1,0,1, 1,1,1,1, 1,0,1,0, 1,1,1,1, 0,1,0,1],
+	melody: [],//[-1, 5, 8, 3, 4, 2, 1, 0, 1, 6, 7, 7, 2, 8, -1, 1],
+	bass: [],//[-1, 5, 8, 3, 4, 2, 1, 0, 1, 6, 7, 7, 2, 8, -1, 1],
+	bassdrum: [],//[1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1],
+	snare: [],//[0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1],
+	hihat: [],//[1,1,1,1, 1,0,1,0, 1,1,1,1, 0,1,0,1, 1,1,1,1, 1,0,1,0, 1,1,1,1, 0,1,0,1],
 }
 
 var renderers = {
@@ -16,12 +16,12 @@ var renderers = {
 	hihat: null,
 }
 
-// List all the parameters here. Default values should probably be 0.5.
+// List all the parameters here. Default values should probably be 0.
 var parameters = {
-	'Param 1': 0.8,
-	'Param 2': 1,
-	'Param 3': 0.5,
-	'Param 4': 0.1,
+	'Param 1': 0,
+	'Param 2': 0,
+	'Param 3': 0,
+	'Param 4': 0,
 }
 
 
@@ -46,6 +46,13 @@ function setSequence(data) {
 function renderSequence(name) {
 	if (renderers[name])
 		renderers[name].render(sequence[name]);
+}
+
+function renderAll() {
+	for (var key in renderers) {
+		if (renderers.hasOwnProperty(key))
+			renderSequence(key);
+	}
 }
 
 function updateParam(name) {
@@ -192,8 +199,8 @@ function RhythmRenderer(canvas, colors) {
 			if (sequence[i] <= 0) 
 				continue;
 			
-			var x1 = i * hstep + r.noteWidth;
-			var x2 = (i + 1) * hstep - r.noteWidth;
+			var x1 = i * hstep + 0.85*r.noteWidth;
+			var x2 = (i + 1) * hstep - 0.85*r.noteWidth;
 			var y = h - ((sequence[i] - 0.5) * vstep);
 			
 			c.moveTo(x1, y);
@@ -231,7 +238,11 @@ function buildParams() {
 
 // Initialize the page
 
+$(window).resize(renderAll);
+
 $(document).ready(function() {
+	
+	var firstUpdate = true;
 	
 	if (window.io === undefined) {
 		console.error('Could not connect to Node server.');
@@ -239,10 +250,6 @@ $(document).ready(function() {
 	}
 	
 	socket = io.connect('http://localhost:8080/');
-	
-	socket.on('connect', function() {
-		socket.emit('get data');
-	})
 	
 	socket.on('tweets', function(data) {
 		console.log(data instanceof Array);
@@ -253,8 +260,10 @@ $(document).ready(function() {
 		
 		for (var i = 0; i < data.length; i++) {
 			console.log(i, data[i]);
-			addTweet(data[i]);
+			addTweet(data[i], firstUpdate);
 		}
+		
+		firstUpdate = false;
 	})
 	
 	socket.on('notes', function(data) {
@@ -267,26 +276,23 @@ $(document).ready(function() {
 	
 	renderers.melody = new SequenceRenderer($('#melody').get(0));
 	renderers.bass = new SequenceRenderer($('#bass').get(0));
-	renderers.bassdrum = new RhythmRenderer($('#bassdrum').get(0));
 	renderers.snare = new RhythmRenderer($('#snare').get(0));
+	renderers.bassdrum = new RhythmRenderer($('#bassdrum').get(0));
 	renderers.hihat = new RhythmRenderer($('#hihat').get(0));
 	renderers.hihat.subdivision = 2;
 	
-	for (var key in renderers) {
-		if (renderers.hasOwnProperty(key))
-			renderSequence(key);
-	}
+	renderAll();
 	
 	buildParams();
 	
-	var testTweet = {
-		avatar: 'https://twimg0-a.akamaihd.net/profile_images/426806419/Kana_reasonably_small.png',
-		name: 'Joel Spadin',
-		username: 'ChaosinaCan',
-		text: '@sigumusicuiuc, blah blah blah blah blah. Testing testing, blah blah blah blah blah. Testing testing, blah blah blah blah blah. 140 reached'
-	}
-	
-	for (var i = 0; i < 5; i++)
-		addTweet(testTweet, i != 4);
+//	var testTweet = {
+//		avatar: 'https://twimg0-a.akamaihd.net/profile_images/426806419/Kana_reasonably_small.png',
+//		name: 'Joel Spadin',
+//		username: 'ChaosinaCan',
+//		text: '@sigumusicuiuc, blah blah blah blah blah. Testing testing, blah blah blah blah blah. Testing testing, blah blah blah blah blah. 140 reached'
+//	}
+//	
+//	for (var i = 0; i < 5; i++)
+//		addTweet(testTweet, i != 4);
 })
 
