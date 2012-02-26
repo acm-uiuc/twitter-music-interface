@@ -1,5 +1,5 @@
 
-var tweetBoxPadding = 24;
+var tweetBoxPadding = 12;
 var tweetCount = 0;
 var maxTweets = 6;
 
@@ -12,7 +12,7 @@ twttr.anywhere(function(T) {
 	
 	T('#send-tweet').tweetBox({
 		height: 100,
-		label: 'Tweet something',
+		label: 'Tweet something to the app',
 		defaultContent: '@sigmusicuiuc',
 	});
 	

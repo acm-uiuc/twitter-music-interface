@@ -58,11 +58,19 @@ button {
 /** Typography and Colors **/
 
 body {
+	background-color: #eee;
 	font: normal normal 16px/1.25 "Helvetica Neueu", "Helvetica", "Arial", sans-serif;
 }
 
 header h1 {
-	margin: 16px;
+	text-align: center;
+	font-size: 3em;
+}
+
+header p {
+	font-size: 14px;
+	line-height: 18px;
+	color: #333;
 }
 
 h3 {
@@ -79,13 +87,21 @@ a:hover {
 	text-decoration: underline;
 }
 
-#params td.value {
-	color: transparent;
+
+#params {
+	background-color: #e8e8e8;
+	color: #999;
 }
 
-#params .value span {
-	background-color: black;
+#params > div {
+	background-color: #ccc;
 }
+
+#params .bar span {
+	background-color: #999;
+}
+
+
 
 #feed {
 	font-size: 14px;
@@ -93,11 +109,16 @@ a:hover {
 }
 
 #feed article {
-	border-top: 1px solid #eee;
+	border-top: 1px dotted #ccc;
+}
+
+#feed article:first-child {
+	border-top-style: solid;
 }
 
 #feed .avatar {
-	/*background-color: #eee;*/
+	background-color: #366;
+	color: rgba(0,0,0,0);
 }
 
 #feed header a:hover {
@@ -139,6 +160,15 @@ a:hover {
 
 /** Layout **/
 
+body {
+	margin: 16px;
+}
+
+body > header {
+	margin: 0 16px 16px;
+}
+
+
 h3 {
 	margin: 3px 0 5px;
 }
@@ -162,6 +192,7 @@ canvas {
 
 canvas.notes {
 	height: 200px;
+	margin-bottom: 4px;
 }
 
 canvas.hits {
@@ -169,18 +200,21 @@ canvas.hits {
 }
 
 
-#params {
-	width: 100%;
+
+#params > div {
+	padding: 8px 0;
+	margin-left: 49%;
+	width: 2%;
+	clear: both;
 }
 
-
-#params td.value {
-	width: 80%;
+#params span {
+	display: inline-block;
+	width: 2400%;
+	height: 20px;
 }
 
-#params td.value span {
-	display: block;
-	margin: 2px 0;
+#params .bar span {
 	min-width: 1px;
 	
 	transition: width 0.5s;
@@ -189,10 +223,34 @@ canvas.hits {
 	-webkit-transition: width 0.5s;
 }
 
+#params :not(.negative) .name {
+	margin-left: -2400%;
+	padding-right: 8px;
+	text-align: right;
+}
+
+#params :not(.negative) .bar {
+	float: right;
+	margin-right: -2400%;
+}
+
+#params .negative .name {
+	float: right;
+	margin-right: -2400%;
+	padding-left: 8px;
+}
+
+#params .negative .bar {
+	margin-left: -2400%;
+	text-align: right;
+}
+
+
 
 #feed-container {
 	overflow: hidden;
 	padding-bottom: 16px;
+	margin-top: 4px;
 }
 
 #feed article {
@@ -218,7 +276,6 @@ canvas.hits {
 }
 
 #send-tweet iframe {
-	margin-left: 12px;
 	width: 100% !important;
 }
 
@@ -233,3 +290,5 @@ canvas.hits {
 		width: 100%;
 	}
 }
+
+
