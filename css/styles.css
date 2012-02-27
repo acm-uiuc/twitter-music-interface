@@ -74,6 +74,7 @@ header p {
 }
 
 h3 {
+	color: #333;
 	font-size: 20px;
 	line-height: 22px;
 	font-weight: normal;
@@ -161,7 +162,8 @@ a:hover {
 /** Layout **/
 
 body {
-	margin: 16px;
+	margin: 16px auto;
+	max-width: 1200px;
 }
 
 body > header {
@@ -179,10 +181,17 @@ h3 {
 
 #main section {
 	float: left;
-	width: 33.33%;
+	/*width: 33.33%;*/
 	padding: 0 16px;
 }
 
+#col1 {
+	width: 40%;
+}
+
+#col2, #col3 {
+	width: 30%;
+}
 
 
 canvas {
@@ -272,20 +281,20 @@ canvas.hits {
 }
 
 #send-tweet {
-	min-height: 167px;
+	min-height: 140px;
 }
 
 #send-tweet iframe {
 	width: 100% !important;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 950px) {
 	#main section {
 		width: 50%;
 	}
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
 	#main section {
 		width: 100%;
 	}

@@ -236,36 +236,6 @@ $(document).ready(function() {
 	
 	var firstUpdate = true;
 	
-	if (window.io === undefined) {
-		console.error('Could not connect to Node server.');
-		return;
-	}
-	
-	socket = io.connect('http://localhost:8080/');
-	
-	socket.on('tweets', function(data) {
-		console.log(data instanceof Array);
-		if (!$.isArray(data))
-			data = [data];
-		
-		console.log(data);
-		
-		for (var i = 0; i < data.length; i++) {
-			console.log(i, data[i]);
-			addTweet(data[i], firstUpdate);
-		}
-		
-		firstUpdate = false;
-	})
-	
-	socket.on('notes', function(data) {
-		setSequence(data);
-	})
-	
-	socket.on('params', function(data) {
-		setParams(data);
-	})
-	
 	renderers.melody = new SequenceRenderer($('#melody').get(0));
 	renderers.melody.colors.note = '#9aa641';
 	renderers.bass = new SequenceRenderer($('#bass').get(0));
@@ -296,6 +266,36 @@ $(document).ready(function() {
 		for (var i = 0; i < 5; i++)
 			addTweet(testTweet, true);
 	}
+	
+	if (window.io === undefined) {
+		console.error('Could not connect to Node server.');
+		return;
+	}
+	
+	socket = io.connect('http://localhost:8080/');
+	
+	socket.on('tweets', function(data) {
+		console.log(data instanceof Array);
+		if (!$.isArray(data))
+			data = [data];
+		
+		console.log(data);
+		
+		for (var i = 0; i < data.length; i++) {
+			console.log(i, data[i]);
+			addTweet(data[i], firstUpdate);
+		}
+		
+		firstUpdate = false;
+	})
+	
+	socket.on('notes', function(data) {
+		setSequence(data);
+	})
+	
+	socket.on('params', function(data) {
+		setParams(data);
+	})
 })
 
 if (useTestValues) {

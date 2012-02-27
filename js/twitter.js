@@ -11,8 +11,8 @@ twttr.anywhere.config({
 twttr.anywhere(function(T) {
 	
 	T('#send-tweet').tweetBox({
-		height: 100,
-		label: 'Tweet something to the app',
+		width: 328,
+		label: 'Tweet to the app',
 		defaultContent: '@sigmusicuiuc',
 	});
 	
