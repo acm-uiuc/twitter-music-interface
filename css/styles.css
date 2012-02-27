@@ -94,7 +94,7 @@ a:hover {
 	color: #999;
 }
 
-#params > div {
+#params li {
 	background-color: #ccc;
 }
 
@@ -158,6 +158,39 @@ a:hover {
 	text-overflow: ellipsis;
 }
 
+#feed aside,
+#feed article:hover{
+	background-color: #e8e8e8;
+}
+
+#feed article:hover aside {
+	border: 1px dotted #ccc;
+	border-right: none;
+	border-left: 6px solid #3d89a0;
+}
+
+#feed article:hover:nth-child(3n+1) aside {
+	border-left-color: #9aa641;
+}
+
+#feed article:hover:nth-child(3n+2) aside {
+	border-left-color: #a82934;
+}
+
+#feed article:first-child:hover aside {
+	border-top-style: solid;
+}
+
+#feed aside .param {
+	color: #999;
+}
+
+#feed aside .value {
+	display: inline-block;
+	min-width: 2em;
+}
+
+
 
 /** Layout **/
 
@@ -173,10 +206,6 @@ body > header {
 
 h3 {
 	margin: 3px 0 5px;
-}
-
-#main {
-	overflow: auto;
 }
 
 #main section {
@@ -209,8 +238,7 @@ canvas.hits {
 }
 
 
-
-#params > div {
+#params li {
 	padding: 8px 0;
 	margin-left: 49%;
 	width: 2%;
@@ -228,6 +256,7 @@ canvas.hits {
 	
 	transition: width 0.5s;
 	-o-transition: width 0.5s;
+	-ms-transition: width 0.5s;
 	-moz-transition: width 0.5s;
 	-webkit-transition: width 0.5s;
 }
@@ -255,16 +284,14 @@ canvas.hits {
 }
 
 
-
 #feed-container {
-	overflow: hidden;
 	padding-bottom: 16px;
 	margin-top: 4px;
 }
 
 #feed article {
 	padding: 12px;
-	overflow: auto;
+	overflow: visisble;
 }
 
 #feed .avatar {
@@ -282,10 +309,54 @@ canvas.hits {
 
 #send-tweet {
 	min-height: 140px;
+	background-color: #eee;
+	
+	position: relative;
+	z-index: 100000;
 }
 
 #send-tweet iframe {
 	width: 100% !important;
+}
+
+
+
+#feed article {
+	position: relative;
+	min-height: 72px;
+}
+
+#feed article aside.empty {
+	display: none;
+	
+}
+
+#feed article aside {
+	position: absolute;
+	top: -1px;
+	right: 100%;
+	overflow: hidden;
+	
+	padding: 12px 0;
+	width: 0;
+	opacity: 0;
+	
+	transition: width 0.4s, padding 0.4s, opacity 0.4s;
+	-o-transition: width 0.4s, padding 0.4s, opacity 0.4s;
+	-ms-transition: width 0.4s, padding 0.4s, opacity 0.4s;
+	-moz-transition: width 0.4s, padding 0.4s, opacity 0.4s;
+	-webkit-transition: width 0.4s, padding 0.4s, opacity 0.4s;
+}
+
+#feed article:hover aside {
+	width: 150px;
+	padding: 12px;
+	opacity: 1;
+}
+
+#feed article aside ul li {
+	text-align: right;
+	white-space: nowrap;
 }
 
 @media (max-width: 950px) {
@@ -297,6 +368,10 @@ canvas.hits {
 @media (max-width: 650px) {
 	#main section {
 		width: 100%;
+	}
+	
+	#feed article aside {
+		display: none;
 	}
 }
 

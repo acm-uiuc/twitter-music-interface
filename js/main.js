@@ -211,9 +211,9 @@ function buildParams() {
 		if (!parameters.hasOwnProperty(key))
 			continue;
 		
-		var item = $('<div>').attr('data-param', key).append(
-			$('<span>').addClass('name').html(getParamText(key, parameters[key])),
-			$('<span>').addClass('bar').append(
+		var item = $('<li>').attr('data-param', key).append(
+			$('<span class="name">').html(getParamText(key, parameters[key])),
+			$('<span class="bar">').append(
 				$('<span>')
 					.css('width', Math.abs(parameters[key] * 100) + '%')
 			)
@@ -260,7 +260,15 @@ $(document).ready(function() {
 			avatar: 'https://twimg0-a.akamaihd.net/profile_images/426806419/Kana_reasonably_small.png',
 			name: 'Joel Spadin',
 			username: 'ChaosinaCan',
-			text: '@sigumusicuiuc, blah blah blah blah blah. Testing testing, blah blah blah blah blah. Testing testing, blah blah blah blah blah. 140 reached'
+			text: '@sigumusicuiuc, blah blah blah blah blah. Testing testing, blah blah blah blah blah. Testing testing, blah blah blah blah blah. 140 reached',
+			params: {
+				'Failness': 4,
+				'Awesome': -6,
+				'Derp': 10,
+				'Eels': 0,
+				'Pandas': 42,
+				'Downvotes': 2,
+			}
 		}
 
 		for (var i = 0; i < 5; i++)

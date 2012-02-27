@@ -39,6 +39,7 @@ function addTweet(tweet, noAnim) {
 	var name = tweet.name;
 	var username = tweet.username;
 	var text = tweet.text;
+	var params = tweet.params || {};
 	
 	var profile = 'https://twitter.com/#!/' + username;
 	var link = tweet.link || profile;
@@ -47,7 +48,7 @@ function addTweet(tweet, noAnim) {
 	var item = $('<article>').append(
 		$('<header>').append(
 			$('<a>').attr('href', profile).append(
-				$('<img>').addClass('avatar').attr({
+				$('<img class="avatar">').attr({
 					src: avatar,
 					alt: name
 				}),
@@ -56,10 +57,34 @@ function addTweet(tweet, noAnim) {
 				$('<span>').addClass('username').text('@' + username)
 			),
 			' ',
-			$('<a>').addClass('permalink').attr('href', link).text('Open')
+			$('<a class="permalink">').attr('href', link).text('Open')
 		),
-		$('<p>').text(text)
+		$('<p>').text(text),
+		$('<aside>').append($('<ul>'))
 	)
+		
+	var hasParams = false;
+	var paramList = item.find('aside ul');
+	for (var key in params) {
+		if (params.hasOwnProperty(key)) {
+			hasParams = true;
+			
+			var value = Math.round(params[key]);
+			if (value < 0)
+				value = '&minus;' + Math.abs(value);
+			
+			paramList.append(
+				$('<li>').append(
+					$('<span class="param">').text(key),
+					' ',
+					$('<span class="value">').html(value)
+				)
+			)
+		}
+	}
+	
+	if (!hasParams)
+		item.find('aside').addClass('empty');
 		
 	
 	// add the tweet to the list
@@ -72,8 +97,8 @@ function addTweet(tweet, noAnim) {
 	// animate the tweet as it comes in
 	if (!noAnim) {
 		var y = container.offset().top;
-		container.offset({ top: y - item.outerHeight() });
-		container.animate({ top: 0 }, 1000);
+		container.offset({top: y - item.outerHeight()});
+		container.animate({top: 0}, 1000);
 	}
 	
 	// do fun twittery stuff to the text in the tweet
