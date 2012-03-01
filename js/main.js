@@ -1,13 +1,17 @@
 
-var useTestValues = false;
+var useTestValues = true;
+
+var defaultArray = [];
+for (var i = 0; i < 64; i++)
+	defaultArray.push(0);
 
 // Hardcoded sequences for testing. Use array of 16 0's for production
 var sequence = {
-	melody: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	bass: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	bassdrum: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	snare: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	hihat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	melody: defaultArray,
+	bass: defaultArray,
+	bassdrum: defaultArray,
+	snare: defaultArray,
+	hihat: defaultArray,
 }
 
 var renderers = {
@@ -20,11 +24,9 @@ var renderers = {
 
 // List all the parameters here. Default values should probably be 0.
 var parameters = {
-	'Param 1': 0,
-	'Param 2': 0,
-	'Param 3': 0,
-	'Param 4': 0,
-	'Param 5': 0,
+	'Happiness': 0,
+	'Excitement': 0,
+	'Confusion': 0,
 }
 
 
@@ -106,6 +108,10 @@ function SequenceRenderer(canvas, colors) {
 	this.joinTop = false;
 	this.joinBottom = false;
 	
+	this.mergeNotes = true;
+	this.fillNotes = true;
+	this.fillLength = 4;
+	
 	/**
 	 * Renders a sequence to the canvas
 	 * @param {number[]} sequence The sequence of pitches to render
@@ -171,15 +177,32 @@ function SequenceRenderer(canvas, colors) {
 		// draw notes
 		c.fillStyle = this.colors.note;
 		
+		var lastPitch = 0;
 		var x = 0;
 		for (var i = 0; i < sequence.length; i++) {
 			var x1 = Math.round(x) + 1;
 			var x2 = Math.round(x + hstep)
-			var yy = Math.round(h - sequence[i] * vstep)
-				+ (this.jointop || this.joinBottom ? 1 : 0);
+			var pitch = sequence[i];
 			
-			c.fillRect(x1, yy, Math.round(x2 - x1), Math.round(vstep - 1));
+			if (this.mergeNotes && i > 0 && sequence[i - 1] == sequence[i])
+				x1 -= 1;
+			
+			if (this.fillNotes && i % this.fillLength != 0) {
+				if (sequence[i] <= 0 && lastPitch > 0) {
+					pitch = lastPitch;
+					x1 -= 1;
+				}
+			}
+			
+			if (pitch > 0) {
+				var yy = Math.round(h - pitch * vstep)
+					+ (this.jointop || this.joinBottom ? 1 : 0);
+
+				c.fillRect(x1, yy, Math.round(x2 - x1), Math.round(vstep - 1));
+			}
+			
 			x += hstep;
+			lastPitch = pitch;
 		}
 	}
 	
@@ -189,6 +212,7 @@ function RhythmRenderer(canvas, colors) {
 	var r = new SequenceRenderer(canvas, colors);
 	r.pitches = 1;
 	r.noteWidth = 9;
+	r.mergeNotes = false;
 	
 	return r;
 }
@@ -254,10 +278,13 @@ $(document).ready(function() {
 	
 	renderers.hihat = new RhythmRenderer($('#hihat').get(0));
 	renderers.hihat.joinTop = true;
-	renderers.hihat.subdivision = 2;
 	
 	renderers.snare.colors.note = renderers.bassdrum.colors.note
 		= renderers.hihat.colors.note = '#3d89a0';
+	
+	renderers.melody.subdivision = renderers.bass.subdivision
+		= renderers.snare.subdivision = renderers.bassdrum.subdivision
+		= renderers.hihat.subdivision = 4;
 	
 	renderAll();
 	buildParams();
@@ -316,11 +343,11 @@ $(document).ready(function() {
 
 if (useTestValues) {
 	sequence = {
-		melody: [-1, 5, 8, 3, 4, 2, 1, 0, 1, 6, 7, 7, 2, 8, -1, 1],
-		bass: [-1, 5, 8, 3, 4, 2, 1, 0, 1, 6, 7, 7, 2, 8, -1, 1],
-		bassdrum: [1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1],
-		snare: [0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1],
-		hihat: [1,1,1,1, 1,0,1,0, 1,1,1,1, 0,1,0,1, 1,1,1,1, 1,0,1,0, 1,1,1,1, 0,1,0,1],
+		melody: [1,0,0,0, 0,0,7,0, 3,0,0,4, 1,1,2,2,  2,2,3,0, 4,5,7,6, 5,0,6,6, 6,6,5,0, 4,0,2,0, 1,0,0,0, 3,0,0,4, 1,1,2,2,  2,2,3,0, 4,5,7,6, 5,0,6,0, 8,0,6,0],
+		bass: [1,1,1,1, 1,1,1,1, 1,1,1,1, 2,2,2,3, 5,0,8,0, 5,0,1,0, 1,0,8,0, 1,0,8,0, 2,2,2,2, 3,3,3,3, 5,5,5,5, 6,6,6,6, 2,2,3,3, 1,1,1,1, 0,0,0,0, 0,0,4,4 ],
+		bassdrum: [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0 ],
+		snare: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,1,0, 1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,1,0, 1,0,0,0 ],
+		hihat: [0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0 ],
 	}
 
 	parameters = {

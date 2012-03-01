@@ -53,14 +53,13 @@
  * 
  * /params
  * Sets the parameter values. Data should be an object containing float
- * values [0-1] indexed by the name of the parameter.
+ * values (-1 to 1) indexed by the name of the parameter.
  * Data should look like this:
  * 
  *		{
- *			"Param 1": 0.4,
- *			"Param 2": 0.8,
- *			"Param 3": 0.2,
- *			...
+ *			"Happiness": 0.4,
+ *			"Randomness": 0.8,
+ *			"Confusion": -0.2
  *		}
  * 
  * You may update individual parameters the same way as with notes.
