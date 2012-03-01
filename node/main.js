@@ -9,14 +9,19 @@
  *		
  *		[
  *			{
- *				"name": "User display name",
+ *				"displayname": "User display name",
  *				"username": "The @username, but without the @.",
- *				"avatar": "URL of the display picture",
- *				"link": "Optional: a link to the specific tweet",
- *				"text": "The text in the tweet"
+ *				"userimgurl": "URL of the display picture",
+ *				"url": "Optional: a link to the specific tweet",
+ *				"raw_input": "The text in the tweet",
+ *				"params":
+ *				{
+ *					"Param 1": 4,
+ *					"Param 2": -2
+ *				}
  *			},
- *			{ ... },
- *			{ ... }
+ *			{ another tweet },
+ *			{ and so on... }
  *		]
  * 
  * 

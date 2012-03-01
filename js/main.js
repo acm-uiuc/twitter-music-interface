@@ -1,5 +1,5 @@
 
-var useTestValues = true;
+var useTestValues = false;
 
 // Hardcoded sequences for testing. Use array of 16 0's for production
 var sequence = {
@@ -236,31 +236,39 @@ $(document).ready(function() {
 	
 	var firstUpdate = true;
 	
+	// If an instrument has 2x the resolution of other instruments,
+	// set its subdivision to 2.
+	
 	renderers.melody = new SequenceRenderer($('#melody').get(0));
 	renderers.melody.colors.note = '#9aa641';
+	
 	renderers.bass = new SequenceRenderer($('#bass').get(0));
 	renderers.bass.colors.note = '#a82934';
+	
 	renderers.snare = new RhythmRenderer($('#snare').get(0));
 	renderers.snare.joinBottom = true;
+	
 	renderers.bassdrum = new RhythmRenderer($('#bassdrum').get(0));
 	renderers.bassdrum.joinTop = true;
 	renderers.bassdrum.joinBottom = true;
+	
 	renderers.hihat = new RhythmRenderer($('#hihat').get(0));
 	renderers.hihat.joinTop = true;
 	renderers.hihat.subdivision = 2;
+	
 	renderers.snare.colors.note = renderers.bassdrum.colors.note
 		= renderers.hihat.colors.note = '#3d89a0';
 	
 	renderAll();
-	
 	buildParams();
 	
 	if (useTestValues) {
 		var testTweet = {
-			avatar: 'https://twimg0-a.akamaihd.net/profile_images/426806419/Kana_reasonably_small.png',
-			name: 'Joel Spadin',
+			userimgurl: 'https://twimg0-a.akamaihd.net/profile_images/426806419/Kana_reasonably_small.png',
+			displayname: 'Joel Spadin',
 			username: 'ChaosinaCan',
-			text: '@sigumusicuiuc, blah blah blah blah blah. Testing testing, blah blah blah blah blah. Testing testing, blah blah blah blah blah. 140 reached',
+			raw_input: '@sigumusicuiuc, blah blah blah blah blah. Testing testing, blah blah blah blah blah. Testing testing, blah blah blah blah blah. 140 reached',
+			url: 'http://google.com',
 			params: {
 				'Failness': 4,
 				'Awesome': -6,

@@ -35,14 +35,15 @@ function resizeTweetBox() {
 
 
 function addTweet(tweet, noAnim) {
-	var avatar = tweet.avatar;
-	var name = tweet.name;
-	var username = tweet.username;
-	var text = tweet.text;
+	console.log(tweet);
+	var avatar = tweet.userimgurl || null;
+	var username = tweet.username || '<no username>';
+	var name = tweet.displayname || username;
+	var text = tweet.raw_input || '<no text>';
 	var params = tweet.params || {};
 	
 	var profile = 'https://twitter.com/#!/' + username;
-	var link = tweet.link || profile;
+	var link = tweet.url || profile;
 	
 	// build the tweet
 	var item = $('<article>').append(
