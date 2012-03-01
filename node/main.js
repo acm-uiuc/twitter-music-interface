@@ -4,17 +4,20 @@
  * application/json when posting data.
  *
  * /tweets
- * Adds tweets to the server. Data should be an array of objects. Each object
- * represents one tweet. Data should look like this:
+ * Adds tweets to the server. Data should be an object or array of objects. 
+ * Each object represents one tweet. Data should look like this:
  *		
  *		[
  *			{
- *				"displayname": "User display name",
- *				"username": "The @username, but without the @.",
- *				"userimgurl": "URL of the display picture",
- *				"url": "Optional: a link to the specific tweet",
- *				"raw_input": "The text in the tweet",
- *				"params":
+ *				"inputs":
+ *				{
+	*				"displayname": "User display name",
+	*				"username": "The @username, but without the @.",
+	*				"userimgurl": "URL of the display picture",
+	*				"url": "Optional: a link to the specific tweet",
+	*				"raw_input": "The text in the tweet"
+	*			}
+ *				"weights":
  *				{
  *					"Param 1": 4,
  *					"Param 2": -2
@@ -23,6 +26,13 @@
  *			{ another tweet },
  *			{ and so on... }
  *		]
+ *		
+ *		Or if sending individual tweets, not sending an array is fine too.
+ *		
+ *		{
+ *			"inputs": { ... },
+ *			"weights": { ... }
+ *		}
  * 
  * 
  * /notes
@@ -121,6 +131,10 @@ io.sockets.on('connection', function(socket) {
 
 
 function addTweets(data) {
+	
+	if (!Array.isArray(data))
+		data = [data];
+	
 	for (var i = 0; i < data.length; i++) {
 		stored.tweets.push(data[i]);
 	}
