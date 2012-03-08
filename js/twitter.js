@@ -1,5 +1,5 @@
 
-var tweetBoxPadding = 12;
+var tweetBoxPadding = 9;
 var tweetCount = 0;
 var maxTweets = 6;
 
@@ -9,10 +9,30 @@ twttr.anywhere.config({
 });
 
 twttr.anywhere(function(T) {
-	
+	var style=
+	'<style type="text/css">\
+	#tweet-box-container label, #tweet-box, #tweeting-button, #counter {\
+	    font: normal normal 16px/1.25 "Roboto" "Helvetica Neueu", "Helvetica", "Arial", sans-serif;\
+		font-size: 90%;\
+	}\
+	#counter {\
+	    margin-top:3px;\
+	}\
+	#tweet-box {\
+	    border: none; \
+	    font-size: 70%; \
+	}\
+	#tweeting-button {\
+	    font-size: 70%;\
+	}\
+	#tweet-box-container label {\
+		margin: 3px 5px 5px 0;\
+	}\
+	</style>';
+
 	T('#send-tweet').tweetBox({
 		width: 328,
-		label: 'Tweet to the app',
+		label: style+'Tweet something to this app',
 		defaultContent: '@sigmusicuiuc',
 	});
 	
