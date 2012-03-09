@@ -1,0 +1,83 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+	<title>SIGMusic Tweet Beat</title>
+	
+	<!-- HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic">
+	<link rel="stylesheet" href="css/styles.css">
+	
+	<script src="js/libs/modernizr-2.5.2.min.js"></script>
+	<script src="http://platform.twitter.com/anywhere.js?id=Lkfowim2PDqHI1XGrXg5Yw&v=1"></script>
+	<!-- update this with the real location of the node server -->
+	<script src="http://localhost:8081/socket.io/socket.io.js"></script>
+	
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
+</head>
+<body>
+	
+	<header>
+		<h1>Tweet Beat</h1>
+		<p>
+		Tweet Beat is SIGMusic's (Special Interest Group for Music) project for the 2012 Engineering Open House. 
+		It listens to twitter, analyzing tweets for mood and other parameters, and turns them into melodies, rhythms and tibre to form music.
+		Try it for yourself by tweeting in the box below, or read more
+		</p>
+	</header>
+	
+	<div role="main" id="main">
+		
+		<section id="col1">
+			<h3>Melody</h3>
+			<canvas id="melody" class="notes"></canvas>
+			<h3>Bass</h3>
+			<canvas id="bass" class="notes"></canvas>
+			<h3>Drums</h3>
+			<canvas id="snare" class="hits"></canvas>
+			<canvas id="bassdrum" class="hits"></canvas>
+			<canvas id="hihat" class="hits"></canvas>
+		</section>
+		
+		<section id="col2">
+			<h3>Parameters</h3>
+			<ul id="params"></ul>
+		</section>
+		
+		<section id="col3">
+			<div id="send-tweet">
+			</div>
+			<div id="feed-container">
+				<div id="feed"></div>
+			</div>
+		</section>
+		
+	</div>
+	<br style="clear: both"/>
+	
+	<footer>
+		
+	</footer>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+	<script src="js/main.js"></script>
+	<script src="js/twitter.js"></script>
+	
+</body>
+</html>
