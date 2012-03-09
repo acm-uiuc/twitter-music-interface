@@ -1,5 +1,5 @@
 
-var useTestValues = true;
+var useTestValues = false;
 
 var defaultArray = [];
 for (var i = 0; i < 64; i++)
@@ -257,6 +257,7 @@ function buildParams() {
 $(window).resize(renderAll);
 
 $(document).ready(function() {
+    console.log("IF this runs, rj is a poopyhead");
 	
 	var firstUpdate = true;
 	
@@ -316,6 +317,7 @@ $(document).ready(function() {
 	}
 	
 	socket = io.connect('http://localhost:8080/');
+	console.log("Socket: "+socket);
 	
 	socket.on('tweets', function(data) {
 		console.log(data instanceof Array);
@@ -331,8 +333,9 @@ $(document).ready(function() {
 		
 		firstUpdate = false;
 	})
-	
+
 	socket.on('notes', function(data) {
+	    console.log("YO DAWG WE GOT US SOME NOTES");
 		setSequence(data);
 	})
 	
