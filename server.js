@@ -159,7 +159,6 @@ server.get('/notes', function(req, res) {
 })
 
 server.post('/notes', function(req, res) {
-   console.log("req.body: ", req.body);
 	addNotes(req.body);
 	emitNotes(req.body);
 	sendOK(res);
@@ -170,6 +169,7 @@ server.get('/params', function(req, res) {
 })
 
 server.post('/params', function(req, res) {
+	console.log("Requ body:"+req.body);
 	addParams(req.body);
 	emitParams(req.body);
 	sendOK(res);
@@ -184,6 +184,7 @@ server.get('/all', function(req, res) {
 })
 
 server.post('/all', function(req, res) {
+	console.log("server post all", req.body);
 	if (req.body.tweets !== undefined) {
 		addTweets(req.body.tweets);
 		emitTweets(req.body.tweets);

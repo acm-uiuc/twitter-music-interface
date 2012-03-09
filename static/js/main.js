@@ -24,9 +24,9 @@ var renderers = {
 
 // List all the parameters here. Default values should probably be 0.
 var parameters = {
-	'Happiness': 0,
-	'Excitement': 0,
-	'Confusion': 0,
+	'happiness': 0,
+	'excitement': 0,
+	'confusion': 0,
 }
 
 
@@ -68,7 +68,7 @@ function updateParam(name) {
 		item.removeClass('negative');
 	
 	item.find('.name').html(getParamText(name, parameters[name]));
-	item.find('.bar span').css('width', Math.abs(parameters[name] * 100) + '%');
+	item.find('.bar span').css('width', Math.abs(parameters[name]) + '%');
 }
 
 
@@ -219,7 +219,7 @@ function RhythmRenderer(canvas, colors) {
 
 
 function getParamText(name, value) {
-	value = Math.round(value * 100);
+	value = Math.round(value);
 	if (value == 0)
 		return value + '&ensp;' + name;
 	else if (value > 0)
@@ -316,7 +316,7 @@ $(document).ready(function() {
 		return;
 	}
 	
-	socket = io.connect('http://localhost:8081/');
+	socket = io.connect('/');
 	console.log(socket);
 	
    socket.on('test',function(data) {
@@ -347,6 +347,7 @@ $(document).ready(function() {
 	
 	socket.on('params', function(data) {
 		setParams(data);
+	      console.log("Yo we got some params for us : ",data);
 	})
 })
 

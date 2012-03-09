@@ -56,14 +56,14 @@ function resizeTweetBox() {
 
 function addTweet(tweet, noAnim) {
 	console.log(tweet);
-	var avatar = tweet.inputs.userimgurl || null;
-	var username = tweet.inputs.username || '<no username>';
-	var name = tweet.inputs.displayname || username;
-	var text = tweet.inputs.raw_input || '<no text>';
+	var avatar = tweet.userimgurl || null;
+	var username = tweet.username || '<no username>';
+	var name = tweet.displayname || username;
+	var text = tweet.raw_input || '<no text>';
 	var params = tweet.weights || {};
 	
 	var profile = 'https://twitter.com/#!/' + username;
-	var link = tweet.inputs.url || profile;
+	var link = tweet.url || profile;
 	
 	// build the tweet
 	var item = $('<article>').append(
