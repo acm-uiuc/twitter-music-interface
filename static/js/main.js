@@ -42,7 +42,8 @@ function setParams(data) {
 function setSequence(data) {
 	for (var key in data) {
 		if (data.hasOwnProperty(key)) {
-			sequence[key] = data[key];
+			
+			sequence[key] = data[key];//.splice(16);
 			renderSequence(key);
 		}
 	}
@@ -99,7 +100,7 @@ function SequenceRenderer(canvas, colors) {
 	/**
 	 * The number of steps between downbeats
 	 */
-	this.division = 4;
+	this.division = 16;
 	/**
 	 * The number of beats per grid line
 	 */
@@ -285,7 +286,7 @@ $(document).ready(function() {
 	
 	renderers.melody.subdivision = renderers.bass.subdivision
 		= renderers.snare.subdivision = renderers.bassdrum.subdivision
-		= renderers.hihat.subdivision = 4;
+		= renderers.hihat.subdivision = 1;
 	
 	renderAll();
 	buildParams();
