@@ -66,17 +66,17 @@ header h1 {
 	text-align: center;
 	font-size: 350%;
 	color: #2F2F2F;
+	margin-bottom: 0.71em;
 }
 
 header p {
 	font-size: 80%;
 	line-height: 1.1em;
 	color: #333;
-	margin-top: 0.71em;
 	font-weight: 300;
 }
 
-h3 {
+h4 {
 	color: #333;
 	font-size: 90%;
 	line-height: 1em;
@@ -217,6 +217,9 @@ body > header {
 
 h3 {
 	margin: 3px 0 0.7em;
+}
+h4 {
+	margin: 0.8em 0 0px;
 }
 
 #main {
