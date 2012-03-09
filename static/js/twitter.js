@@ -26,7 +26,7 @@ twttr.anywhere(function(T) {
 	    font-size: 70%;\
 	}\
 	#tweet-box-container label {\
-		margin: 3px 5px 5px 0;\
+		margin: 3px 5px 0.7em 0;\
 	}\
 	</style>';
 

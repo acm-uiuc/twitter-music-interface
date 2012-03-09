@@ -73,7 +73,7 @@ header p {
 	line-height: 1.1em;
 	color: #333;
 	margin-top: 0.71em;
-	font-weight: 400;
+	font-weight: 300;
 }
 
 h3 {
@@ -133,9 +133,9 @@ a:hover {
 	text-decoration: none;
 }
 
-#feed .name {
-	font-weight: bold;
-	color: #000;
+#feed .name, #feed p {
+	color: #222;
+	font-size: 80%;
 }
 
 #feed header a:hover .name,
@@ -146,7 +146,7 @@ a:hover {
 
 #feed .username, 
 #feed .permalink {
-	font-size: 12px;
+	font-size: 80%;
 	color: #999;
 }
 
@@ -212,7 +212,7 @@ body > header {
 
 
 h3 {
-	margin: 3px 0 5px;
+	margin: 3px 0 0.7em;
 }
 
 #main {
