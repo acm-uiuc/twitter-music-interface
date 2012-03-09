@@ -136,6 +136,8 @@ a:hover {
 #feed .name, #feed p {
 	color: #222;
 	font-size: 80%;
+	font-weight: 300;
+	line-height: 121%;
 }
 
 #feed header a:hover .name,
@@ -148,6 +150,8 @@ a:hover {
 #feed .permalink {
 	font-size: 80%;
 	color: #999;
+	font-weight:300;
+	line-height: 121%;
 }
 
 #feed .permalink {
