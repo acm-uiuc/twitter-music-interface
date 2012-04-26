@@ -10,10 +10,11 @@ twttr.anywhere.config({
 
 twttr.anywhere(function(T) {
 	var style=
-	'<style type="text/css">\
+	'<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic">\
+	<style type="text/css">\
 	#tweet-box-container label, #tweet-box, #tweeting-button, #counter {\
 	    font: normal normal 16px/1.25 "Roboto" "Helvetica Neueu", "Helvetica", "Arial", sans-serif;\
-		font-size: 90%;\
+		font-size: 111%;\
 	}\
 	#counter {\
 	    margin-top:3px;\
@@ -26,14 +27,15 @@ twttr.anywhere(function(T) {
 	    font-size: 70%;\
 	}\
 	#tweet-box-container label {\
+		font-weight: 400;\
 		margin: 3px 5px 0.7em 0;\
 	}\
 	</style>';
 
 	T('#send-tweet').tweetBox({
 		width: 328,
-		label: style+'Tweet something to this app',
-		defaultContent: '@sigmusicuiuc',
+		label: style+'Tweet to this app',
+		defaultContent: '#EOH',
 	});
 	
 	var interval = window.setInterval(function() {
