@@ -66,7 +66,7 @@ function playExample() {
         this.hh = new Drum(audiolet, 'audio/hh_stereo.wav');
 
 
-        this.synthFrequencyPattern = new PSequence([70, 66, 72, 66, 75, 66, 77, -1, 80, -1, 90, -1],Infinity);
+        this.synthFrequencyPattern = new PSequence([70, 70, 72, -1, 75, -1, 77, -1, 80, -1, 90, -1],Infinity);
         this.bassFrequencyPattern = new PSequence([30, -1, 32, -1, 35, -1, 37, -1, 30, -1, 30, -1],Infinity);
         this.kickPattern = new PSequence([1, 0, 0, 0],Infinity);
         this.snarePattern = new PSequence([0, 1, 0, 1],Infinity);
@@ -125,7 +125,16 @@ function playExample() {
 var synth;
 var audiolet;
 
-function clamp(low, high,  value) { return Math.max(low, Math.min(high, value)) };
+
+
+function setPattern(pattern, list) {
+    pattern.list=list;
+}
+function setSynthPattern(list) { setPattern(synth.synthFrequencyPattern, list); }
+function setBassPattern(list) { setPattern(synth.bassFrequencyPattern, list); }
+function setKickPattern(list) { setPattern(synth.kickPattern, list); }
+function setSnarePattern(list) { setPattern(synth.snarePattern, list); }
+function setHHPattern(list) { setPattern(synth.hhPattern, list); }
 
 function setReverbMix(value) { synth.reverb.mix.setValue(value); }
 function setReverbRoom(value) { synth.reverb.roomSize.setValue(value); }
@@ -237,6 +246,5 @@ var parameters = {
 
 
 
-function mtof(midi) {
-    return Math.pow(2, (midi-69)/12)*440.0;
-}
+function clamp(low, high,  value) { return Math.max(low, Math.min(high, value)) };
+function mtof(midi) { return Math.pow(2, (midi-69)/12)*440.0; }
