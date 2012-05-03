@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Audiolet - Synth</title>
+    <!-- Production -->
+    <!--
+    <script src="../../src/audiolet/Audiolet.min.js"></script>
+    -->
+
+    <script src="js/Audiolet.js"></script>
+    <script src="js/audiofile.js"></script>
+    <script src="js/synth.js"></script>
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/jquery-ui-1.8.20.custom.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/cupertino/jquery-ui-1.8.20.custom.css"></link>
+    <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+
+    <style type="text/css">
+      body {
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 300;
+      }
+      .slidercontainer {
+        width: 250px;
+        height: 70px;
+      }
+      .slidertext {
+        margin: 0;
+        padding: 0;
+        padding-top: 20px;
+        padding-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+        <button type="button" onclick="playExample()">&#9654; Play Example</button>
+        <br>
+
+        <script type="text/javascript">
+          $.each(parameters, function(param, index) {
+            var p = parameters[param];
+            var divid = "input"+param;
+            var container = $("<div/>", { class:"slidercontainer"});
+            var text = $("<p>", { class:"slidertext"});
+            var slider = $("<div/>", { id:divid, class:"slider" });
+            container.append(text);
+            container.append(slider);
+            $("body").append(container);
+            slider.slider({
+              range: false,
+              min: 0,
+              max: 1,
+              step: 0.01,
+              value: fromrange(p.max, p.min, p.currentval),
+              slide: function( event, ui ) {
+                try {
+                  text.html(p.title+" : <b>"+p.currentval+"</b> "+p.units);
+                  p.set(ui.value);
+                } catch(e) {
+                  console.log(e);
+                }
+              }
+            }); 
+            text.html(p.title+" : <b>"+p.currentval+"</b> "+p.units);
+            
+          });
+        </script>
+  </body>
+</html>

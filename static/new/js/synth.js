@@ -127,7 +127,7 @@ var audiolet;
 
 function clamp(low, high,  value) { return Math.max(low, Math.min(high, value)) };
 
-function setReverbMix(value) { synth.reverb.mix.setValue(clamp(0,1,value)); }
+function setReverbMix(value) { synth.reverb.mix.setValue(value); }
 function setReverbRoom(value) { synth.reverb.roomSize.setValue(value); }
 function setReverbDamping(value) { synth.reverb.damping.setValue(value); }
 function setBitcrushBits(value) { synth.bitcrush.bits.setValue(value); }
@@ -135,16 +135,104 @@ function setPreEffectsVol(value) { synth.preeffectsGain.gain.setValue(value); }
 function setPostEffectsVol(value) { synth.posteffectsGain.gain.setValue(value); }
 function setTempo(value) { audiolet.scheduler.setTempo(value); }
 
-
+function set(setter) {
+   return function(value, converted) {
+      if (!converted)
+         value = this.curve(value);
+      value = clamp(this.min, this.max, value);
+      this.currentval = value;
+      setter(value);
+   };
+}
+function torange(high,low,normalized) { return (high-low)*normalized+low; }
+function fromrange(high,low,abnormal) { return (abnormal-low)/(high-low); }
+function linear() { return function(value) { return torange(this.max, this.min, value); }; }
+function log() { return function(value) { return torange(this.max, this.min, Math.log(1+value) ); }; }
+function exponential() { return function(value) { return torange(this.max, this.min, Math.pow(2,value)-1 ); }; }
 
 var parameters = {
-   preeffectsvol: {set:setPreEffectsVol, name:"preeffectsvol", title:"Pre Effects Volume", max:1.0, min:0.0, curve:"linear", units:"", category:"effects"},
-   reverbmix: {set:setReverbMix, name:"reverbmix", title:"Reverb Mix", max:1.0, min:0.0, curve:"linear", units:"", category:"effects"},
-   reverbroom: {set:setReverbRoom, name:"reverbroom", title:"Reverb Room", max:1.0, min:0.0, curve:"linear", units:"", category:"effects"},
-   reverbdamping: {set:setReverbDamping, name:"reverbdamping", title:"Reverb Damping", max:1.0, min:0.0, curve:"linear", units:"", category:"effects"},
-   bitcrushbits: {set:setBitcrushBits, name:"bitcrushbits", title:"Bitcrush", max:32.0, min:1.0, curve:"linear", units:"bits", category:"effects"},
-   posteffectsvol: {set:setPostEffectsVol, name:"posteffectsvol", title:"Post Effects Volume", max:1.0, min:0.0, curve:"linear", units:"", category:"main"},
-   tempo: {set:setTempo, name:"tempo", title:"Tempo", max:300.0, min:20.0, curve:"linear", units:"bpm", category:"main"},
+   preeffectsvol: {
+      set:set(setPreEffectsVol),
+      name:"preeffectsvol", 
+      title:"Pre Effects Volume",
+      max:1.0, 
+      min:0.0, 
+      currentval:0.8, 
+      defaultval:0.8, 
+      curve:linear(), 
+      units:"", 
+      category:"effects"
+   },
+   reverbmix: {
+      set:set(setReverbMix), 
+      name:"reverbmix", 
+      title:"Reverb Mix", 
+      max:1.0, 
+      min:0.0, 
+      currentval:0.8, 
+      defaultval:0.8, 
+      curve:linear(), 
+      units:"", 
+      category:"effects"
+   },
+   reverbroom: {
+      set:set(setReverbRoom), 
+      name:"reverbroom", 
+      title:"Reverb Room", 
+      max:1.0, 
+      min:0.0, 
+      currentval:0.8, 
+      defaultval:0.8, 
+      curve:linear(), 
+      units:"", 
+      category:"effects"
+   },
+   reverbdamping: {
+      set:set(setReverbDamping),
+      name:"reverbdamping",
+      title:"Reverb Damping",
+      max:1.0,
+      currentval:0.8,
+      defaultval:0.8,
+      min:0.0,
+      curve:linear(), 
+      units:"",
+      category:"effects"
+   },
+   bitcrushbits: {set:set(setBitcrushBits),
+       name:"bitcrushbits",
+       title:"Bitcrush",
+       max:32.0,
+       min:1.0,
+       currentval:16,
+       defaultval:16,
+       curve:exponential(), 
+       units:"bits",
+       category:"effects"  
+   },
+   posteffectsvol: {set:set(setPostEffectsVol),
+       name:"posteffectsvol",
+       title:"Post Effects Volume",
+       max:1.0,
+       min:0.0,
+       currentval:0.8,
+       defaultval:0.8,
+       curve:linear(), 
+       units:"",
+       category:"main"
+   },
+   tempo: {set:set(setTempo),
+       name:"tempo",
+       title:"Tempo",
+       max:300.0,
+       min:20.0,
+       currentval:100,
+       defaultval:100,
+       curve:linear(), 
+       units:"bpm",
+       category:"main"
+   },
+
 }
 
 
