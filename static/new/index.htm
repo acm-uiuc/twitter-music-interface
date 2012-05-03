@@ -19,25 +19,33 @@
   <body>
         <button type="button" onclick="playExample()">&#9654; Play Example</button>
         <br>
-        <input id="defaultSlider" type="range" min="0" max="1" step="0.001" />
-        <p class="note">Current value: <span id="currentValue">0</span></p>
-        <script>
-         $(function(){
 
-            var currentValue = $('#currentValue');
-
-            $('#defaultSlider').change(function(){
-                currentValue.html(this.value);
-                setReverbMix(this.value);
-            });
-
-            // Trigger the event on load, so
-            // the value field is populated:
-
-            $('#defaultSlider').change();
-
-          }); 
-          </script>
-
+        <script type="text/javascript">
+          var add='\
+                   <p class="note">%TITLE%: <span id="%VALUEID%">0</span> %UNITS% </p>\
+                   <input id="%INPUTID%" type="range" min="%MIN%" max="%MAX%" step="%STEP%" />';
+          $.each(parameters, function(param, index) {
+            var p = parameters[param];
+            var toreplace = add.replace("%INPUTID%", "input"+param);
+            toreplace = toreplace.replace("%VALUEID%", "value"+param);
+            toreplace = toreplace.replace("%MIN%", p.min);
+            toreplace = toreplace.replace("%MAX%", p.max);
+            toreplace = toreplace.replace("%STEP%", (p.max-p.min)/200.0);
+            toreplace = toreplace.replace("%TITLE%", p.category+" : "+p.title);
+            toreplace = toreplace.replace("%UNITS%", p.units);
+            $("body").append(toreplace);
+            var onchange = function() {
+              var currentValue = $("#value"+param);
+              currentValue.html(this.value);
+              try {
+                parameters[param].set(this.value);
+              } catch(doop) {
+              }
+            };
+            var asdf = $("#input"+param);
+            asdf.change(onchange);
+            asdf.change();
+          });
+        </script>
   </body>
 </html>
